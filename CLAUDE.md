@@ -50,8 +50,15 @@ npx -y http-server -p 5500 -c-1
 
 헤더(`#header`)와 푸터(`#footer`)는 HTML에 빈 태그만 두고 `common.js`의 `renderLayout()`이 채웁니다. 현재 페이지는 `<body data-page="...">`로 구분합니다.
 
+### SEO / AEO / GEO (생성 파일)
+`node tools/build-seo.mjs`가 Supabase에서 상품을 읽어 아래를 생성합니다. **상품·가격·카테고리·FAQ를 바꾸면 다시 실행해서 커밋합니다.** 배포 도메인이 다르면 `SITE_URL=https://도메인/`을 지정합니다(기본값은 GitHub Pages 주소).
+- 모든 HTML의 `<!-- seo:head -->` 블록: title, description, robots(주문서·마이페이지 등은 `noindex`), canonical, OG/Twitter, JSON-LD
+- 카테고리 페이지의 `seo:page-head`, `seo:grid`, `seo:faq` 블록: JS 없이도 읽히는 정적 상품 목록과 FAQ. `#page-head`와 `#grid`는 `list.js`가 같은 마크업으로 다시 그리므로 카드 마크업을 바꾸면 `list.js`와 생성기를 함께 고칩니다.
+- `img/products/*.svg`, `sitemap.xml`, `robots.txt`(AI 크롤러 포함), `llms.txt`
+- `seo:*` 마커 사이는 직접 수정하지 않습니다. FAQ 문구는 생성기의 `FAQ` 배열에서 고치며, 화면 FAQ와 FAQPage 마크업이 항상 같아야 합니다.
+
 ### 카테고리 페이지
-`tops.html`, `shoes.html`, `pants.html`은 `<title>`과 `data-page` 값만 다른 동일한 마크업입니다. 하나를 수정하면 나머지 두 파일에도 똑같이 반영해야 합니다. 카테고리를 추가하려면 `categories` 테이블에 행을 추가하고, 같은 키 이름으로 HTML 파일을 만들고, `productSvg()`에 해당 카테고리의 그림을 추가합니다.
+`tops.html`, `shoes.html`, `pants.html`은 `<title>`과 `data-page` 값, 그리고 생성된 `seo:*` 블록만 다른 동일한 마크업입니다. 하나를 수정하면 나머지 두 파일에도 똑같이 반영해야 합니다. 카테고리를 추가하려면 `categories` 테이블에 행을 추가하고, 같은 키 이름으로 HTML 파일을 만들고, `productSvg()`에 해당 카테고리의 그림을 추가합니다.
 
 ### 세션과 비회원 지원
 모든 방문자는 Supabase 익명 로그인으로 세션을 받아 장바구니·좋아요·주문이 `user_id`에 묶입니다(`Auth.isMember`는 익명이 아닌 경우). 로그인/가입 직후 `merge-guest`가 익명 계정 데이터를 회원 계정으로 옮기고 익명 계정을 삭제합니다.

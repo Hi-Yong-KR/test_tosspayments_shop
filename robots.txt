@@ -1,0 +1,13 @@
+# STYLEBASE — 검색 엔진과 AI 검색·답변 엔진(GEO) 모두 공개 페이지 수집을 허용한다
+User-agent: *
+User-agent: GPTBot
+User-agent: OAI-SearchBot
+User-agent: ChatGPT-User
+User-agent: ClaudeBot
+User-agent: Claude-SearchBot
+User-agent: Claude-User
+User-agent: PerplexityBot
+User-agent: Google-Extended
+Allow: /test_tosspayments_shop/
+
+Sitemap: https://hi-yong-kr.github.io/test_tosspayments_shop/sitemap.xml

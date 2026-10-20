@@ -92,7 +92,7 @@ async function renderGrid() {
   grid.innerHTML = list
     .map(
       (p) => `
-      <article class="card" data-id="${p.id}" tabindex="0">
+      <article class="card" id="p-${p.id}" data-id="${p.id}" tabindex="0">
         <div class="thumb">
           ${productSvg(p)}
           ${state.sort === "rank" ? `<span class="rank">${rankOf[p.id] || ""}</span>` : ""}
@@ -102,7 +102,7 @@ async function renderGrid() {
         </div>
         <div class="info">
           <div class="brand">${p.brand}</div>
-          <div class="name">${p.name}</div>
+          <h2 class="name">${p.name}</h2>
           <div class="price-row">
             ${p.discount ? `<span class="discount">${p.discount}%</span>` : ""}
             <span class="price">${won(salePrice(p))}</span>

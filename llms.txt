@@ -1,0 +1,57 @@
+# STYLEBASE
+
+> STYLEBASE는 상의·신발·바지를 판매하는 온라인 패션 쇼핑몰입니다. 5만원 이상 무료배송, 회원가입 없이 비회원 결제와 주문조회를 지원합니다.
+
+이 문서는 AI 검색·답변 엔진을 위한 사이트 요약입니다. 가격은 할인 적용가(원, 부가세 포함)이며 마지막 갱신일은 2026-10-21입니다.
+
+## 쇼핑 정책
+
+- **배송비는 얼마인가요?** 주문 금액이 50,000원 이상이면 무료배송이고, 50,000원 미만이면 배송비 3,000원이 추가됩니다.
+- **회원가입 없이 구매할 수 있나요?** 네. 로그인하지 않아도 장바구니와 결제를 모두 이용할 수 있습니다. 비회원 주문은 주문번호와 주문자 휴대폰 번호로 '비회원 주문조회' 페이지에서 확인합니다.
+- **어떤 결제 수단을 쓸 수 있나요?** 토스페이먼츠 결제위젯으로 신용·체크카드, 간편결제, 계좌이체 등을 이용할 수 있습니다.
+- **주문을 취소하려면 어떻게 하나요?** 회원은 마이페이지의 주문 상세에서 결제 완료 상태인 주문을 직접 취소할 수 있으며, 취소 시 결제가 환불됩니다.
+- **원하는 사이즈가 품절이면 어떻게 표시되나요?** 상품 사이즈별로 재고를 관리하며, 재고가 없는 사이즈는 '품절'로 표시되고 선택할 수 없습니다.
+- **비회원으로 담은 장바구니는 로그인하면 사라지나요?** 아니요. 로그인하거나 회원가입하면 비회원으로 담아둔 장바구니와 좋아요, 주문이 회원 계정으로 합쳐집니다.
+
+## 카테고리
+
+- [상의](https://hi-yong-kr.github.io/test_tosspayments_shop/tops.html): 반팔, 긴팔, 후드, 니트, 셔츠 · 10개 상품
+- [신발](https://hi-yong-kr.github.io/test_tosspayments_shop/shoes.html): 스니커즈, 러닝화, 로퍼, 부츠 · 8개 상품
+- [바지](https://hi-yong-kr.github.io/test_tosspayments_shop/pants.html): 데님, 슬랙스, 트레이닝, 숏팬츠 · 9개 상품
+- [비회원 주문조회](https://hi-yong-kr.github.io/test_tosspayments_shop/order-lookup.html): 주문번호와 주문자 연락처로 주문 상태 조회
+
+## 상의 상품 (인기순)
+
+- [MUTED 베이직 무지 반팔 티셔츠 3팩](https://hi-yong-kr.github.io/test_tosspayments_shop/tops.html#p-T006): 26,100원 (정가 29,000원, 10% 할인) · 반팔 · 사이즈 S/M/L/XL/XXL
+- [OVERLAP 오버핏 헤비코튼 로고 반팔 티셔츠](https://hi-yong-kr.github.io/test_tosspayments_shop/tops.html#p-T001): 27,300원 (정가 39,000원, 30% 할인) · 반팔 · 사이즈 S/M/L/XL
+- [COVERMOOD 에센셜 기모 스웻 후드 집업](https://hi-yong-kr.github.io/test_tosspayments_shop/tops.html#p-T002): 43,500원 (정가 79,000원, 45% 할인) · 후드 · 사이즈 S/M/L/XL
+- [TWELVE 피그먼트 다잉 롱슬리브 티셔츠](https://hi-yong-kr.github.io/test_tosspayments_shop/tops.html#p-T005): 26,300원 (정가 35,000원, 25% 할인) · 긴팔 · 사이즈 S/M/L/XL
+- [NORDIC FIELD 램스울 크루넥 니트 스웨터](https://hi-yong-kr.github.io/test_tosspayments_shop/tops.html#p-T003): 55,200원 (정가 69,000원, 20% 할인) · 니트 · 사이즈 M/L/XL
+- [ARCHIVE LAB 옥스포드 오버 셔츠 스카이블루](https://hi-yong-kr.github.io/test_tosspayments_shop/tops.html#p-T004): 50,200원 (정가 59,000원, 15% 할인) · 셔츠 · 사이즈 S/M/L
+- [OVERLAP 와플 헨리넥 롱슬리브](https://hi-yong-kr.github.io/test_tosspayments_shop/tops.html#p-T010): 33,600원 (정가 42,000원, 20% 할인) · 긴팔 · 사이즈 M/L/XL
+- [SAINT ROW 빈티지 워싱 그래픽 후드티](https://hi-yong-kr.github.io/test_tosspayments_shop/tops.html#p-T007): 53,400원 (정가 89,000원, 40% 할인) · 후드 · 사이즈 M/L/XL
+- [HIGHLINE 케이블 하프집업 니트](https://hi-yong-kr.github.io/test_tosspayments_shop/tops.html#p-T008): 48,800원 (정가 75,000원, 35% 할인) · 니트 · 사이즈 S/M/L
+- [BASIC UNION 릴렉스 스트라이프 셔츠](https://hi-yong-kr.github.io/test_tosspayments_shop/tops.html#p-T009): 49,000원 · 셔츠 · 사이즈 S/M/L/XL
+
+## 신발 상품 (인기순)
+
+- [SOLEMATE 클래식 로우 레더 스니커즈 화이트](https://hi-yong-kr.github.io/test_tosspayments_shop/shoes.html#p-S001): 69,300원 (정가 99,000원, 30% 할인) · 스니커즈 · 사이즈 250/260/270/280
+- [RUNWAY ONE 캔버스 하이탑 스니커즈 블랙](https://hi-yong-kr.github.io/test_tosspayments_shop/shoes.html#p-S005): 58,700원 (정가 69,000원, 15% 할인) · 스니커즈 · 사이즈 240/250/260/270/280
+- [TRACK CLUB 에어 쿠션 데일리 러닝화](https://hi-yong-kr.github.io/test_tosspayments_shop/shoes.html#p-S002): 104,300원 (정가 139,000원, 25% 할인) · 러닝화 · 사이즈 250/260/270/280/290
+- [ARCHIVE LAB 페니 로퍼 블랙 레더](https://hi-yong-kr.github.io/test_tosspayments_shop/shoes.html#p-S003): 95,200원 (정가 119,000원, 20% 할인) · 로퍼 · 사이즈 250/260/270/280
+- [NORDIC FIELD 스웨이드 첼시 부츠](https://hi-yong-kr.github.io/test_tosspayments_shop/shoes.html#p-S004): 101,400원 (정가 169,000원, 40% 할인) · 부츠 · 사이즈 250/260/270/280
+- [HIGHLINE 워커 레이스업 부츠](https://hi-yong-kr.github.io/test_tosspayments_shop/shoes.html#p-S008): 132,300원 (정가 189,000원, 30% 할인) · 부츠 · 사이즈 260/270/280
+- [TRACK CLUB 경량 메쉬 트레이닝화 그레이](https://hi-yong-kr.github.io/test_tosspayments_shop/shoes.html#p-S006): 57,900원 (정가 89,000원, 35% 할인) · 러닝화 · 사이즈 250/260/270/280
+- [SOLEMATE 레트로 스웨이드 스니커즈 그린](https://hi-yong-kr.github.io/test_tosspayments_shop/shoes.html#p-S007): 98,100원 (정가 109,000원, 10% 할인) · 스니커즈 · 사이즈 250/260/270
+
+## 바지 상품 (인기순)
+
+- [BASIC UNION 세미 와이드 히든밴딩 슬랙스](https://hi-yong-kr.github.io/test_tosspayments_shop/pants.html#p-P002): 36,000원 (정가 45,000원, 20% 할인) · 슬랙스 · 사이즈 S/M/L/XL/XXL
+- [COVERMOOD 와이드 스트레이트 데님 팬츠 연청](https://hi-yong-kr.github.io/test_tosspayments_shop/pants.html#p-P001): 41,300원 (정가 59,000원, 30% 할인) · 데님 · 사이즈 S/M/L/XL
+- [MUTED 기모 스웻 조거 팬츠](https://hi-yong-kr.github.io/test_tosspayments_shop/pants.html#p-P007): 31,500원 (정가 35,000원, 10% 할인) · 트레이닝 · 사이즈 S/M/L/XL
+- [OVERLAP 코튼 버뮤다 하프 팬츠](https://hi-yong-kr.github.io/test_tosspayments_shop/pants.html#p-P004): 33,200원 (정가 39,000원, 15% 할인) · 숏팬츠 · 사이즈 S/M/L/XL
+- [TWELVE 나일론 트랙 팬츠](https://hi-yong-kr.github.io/test_tosspayments_shop/pants.html#p-P003): 41,300원 (정가 55,000원, 25% 할인) · 트레이닝 · 사이즈 M/L/XL
+- [ARCHIVE LAB 투턱 울 블렌드 와이드 슬랙스](https://hi-yong-kr.github.io/test_tosspayments_shop/pants.html#p-P006): 71,200원 (정가 89,000원, 20% 할인) · 슬랙스 · 사이즈 S/M/L/XL
+- [SAINT ROW 빈티지 워싱 루즈핏 데님](https://hi-yong-kr.github.io/test_tosspayments_shop/pants.html#p-P005): 47,400원 (정가 79,000원, 40% 할인) · 데님 · 사이즈 S/M/L
+- [NORDIC FIELD 셀비지 스트레이트 생지 데님](https://hi-yong-kr.github.io/test_tosspayments_shop/pants.html#p-P009): 129,000원 · 데님 · 사이즈 S/M/L
+- [HIGHLINE 카고 나일론 쇼츠](https://hi-yong-kr.github.io/test_tosspayments_shop/pants.html#p-P008): 34,300원 (정가 49,000원, 30% 할인) · 숏팬츠 · 사이즈 M/L/XL
