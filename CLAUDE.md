@@ -48,6 +48,12 @@ npx -y http-server -p 5500 -c-1
 - 결제 승인 API(`POST /v1/payments/confirm`)는 시크릿 키가 필요해 서버에서만 호출할 수 있으므로 구현되어 있지 않습니다. 실제 결제를 완료하려면 서버를 추가해 successUrl 진입 후 10분 안에 승인을 호출해야 합니다. 현재 `sessionStorage`를 이용한 금액 검증은 퍼블리싱용 임시 처리입니다.
 - `.mcp.json`에 토스페이먼츠 연동 가이드 MCP 서버(`tosspayments-integration-guide`)가 등록되어 있습니다. 토스페이먼츠 SDK·API 관련 작업 시 이 MCP의 문서를 우선 참고합니다.
 
+## 예정된 작업 (Supabase 연동, 아직 미구현)
+- `PRD.md`에 Supabase 연동 요구사항이 정리되어 있습니다. DB 관련 작업은 이 문서를 먼저 확인합니다.
+- 새 Supabase 프로젝트를 만들어 쓰고, 비회원 결제는 익명 로그인(Anonymous Sign-in)으로 지원합니다.
+- 토스 시크릿 키와 `service_role` 키는 Edge Function 시크릿에만 둡니다. 클라이언트에는 클라이언트 키와 anon 키만 씁니다.
+- 도입 후 스크립트 순서는 `supabase-js`(CDN) → `js/supabase.js` → `products.js` → `common.js` → 페이지 스크립트입니다.
+
 ## 스타일
 
 - 디자인 토큰은 `css/style.css` 상단 `:root`에 있습니다. 검정/흰색 기반에 할인율은 `--red`, 강조 버튼은 `--blue`를 씁니다.
