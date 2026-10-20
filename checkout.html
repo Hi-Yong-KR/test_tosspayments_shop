@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>주문서 | STYLEBASE</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <!-- 토스페이먼츠 SDK v2 -->
+    <script src="https://js.tosspayments.com/v2/standard"></script>
+  </head>
+  <body data-page="checkout">
+    <header id="header"></header>
+
+    <main class="inner">
+      <section class="page-head">
+        <div class="breadcrumb">홈 &gt; 장바구니 &gt; 주문서</div>
+        <h1 class="page-title">주문서</h1>
+      </section>
+
+      <div class="checkout">
+        <div>
+          <section class="section">
+            <h3>주문 상품 <span id="item-count" style="color: var(--gray-500); font-weight: 500"></span></h3>
+            <div id="order-items"></div>
+          </section>
+
+          <section class="section">
+            <h3>주문자 정보</h3>
+            <div class="form-grid">
+              <label for="c-name">이름</label>
+              <input id="c-name" type="text" autocomplete="name" placeholder="이름을 입력하세요" />
+              <label for="c-email">이메일</label>
+              <input id="c-email" type="email" autocomplete="email" placeholder="example@email.com" />
+              <label for="c-phone">휴대폰 번호</label>
+              <input id="c-phone" type="tel" autocomplete="tel" placeholder="숫자만 입력 (01012345678)" />
+            </div>
+          </section>
+
+          <section class="section">
+            <h3>결제 수단</h3>
+            <!-- 결제 UI -->
+            <div id="payment-method"></div>
+            <!-- 이용약관 UI -->
+            <div id="agreement"></div>
+          </section>
+        </div>
+
+        <aside class="summary" id="summary"></aside>
+      </div>
+    </main>
+
+    <footer class="footer" id="footer"></footer>
+
+    <script src="js/products.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/checkout.js"></script>
+  </body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>결제 실패 | STYLEBASE</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body data-page="fail">
+    <header id="header"></header>
+
+    <main class="inner">
+      <section class="result">
+        <div class="icon fail">!</div>
+        <h2>결제에 실패했습니다</h2>
+        <p id="f-message">결제 처리 중 문제가 발생했습니다.</p>
+
+        <dl class="result-table">
+          <div><dt>에러 코드</dt><dd id="f-code"></dd></div>
+          <div><dt>주문번호</dt><dd id="f-order"></dd></div>
+        </dl>
+
+        <div class="btn-row">
+          <a href="tops.html" class="btn">쇼핑 계속하기</a>
+          <a href="checkout.html" class="btn btn-black" id="f-retry">다시 결제하기</a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer" id="footer"></footer>
+
+    <script src="js/products.js"></script>
+    <script src="js/common.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const q = new URLSearchParams(location.search);
+        document.getElementById("f-message").textContent = q.get("message") || "결제 처리 중 문제가 발생했습니다.";
+        document.getElementById("f-code").textContent = q.get("code") || "-";
+        document.getElementById("f-order").textContent = q.get("orderId") || "-";
+
+        // 바로구매로 들어온 주문이면 다시 바로구매 주문서로
+        try {
+          const pending = JSON.parse(sessionStorage.getItem("sb_pending_order"));
+          if (pending && pending.mode === "direct") document.getElementById("f-retry").href = "checkout.html?mode=direct";
+        } catch (e) {}
+      });
+    </script>
+  </body>
+</html>
