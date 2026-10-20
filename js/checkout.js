@@ -5,7 +5,6 @@
 // 아래 값은 토스페이먼츠 문서용 공개 테스트 키입니다. (실제 돈이 빠져나가지 않음)
 const TOSS_CLIENT_KEY = "test_gck_docs_Ovk5rk1EwkEbP0W43n07xlzm";
 
-const PENDING_KEY = "sb_pending_order";
 const DIRECT = "sb_direct";
 
 const isDirect = new URLSearchParams(location.search).get("mode") === "direct";
@@ -19,18 +18,6 @@ function getOrderItems() {
     }
   }
   return Cart.items();
-}
-
-function makeOrderId() {
-  // 6~64자, 영문 대소문자/숫자/-/_ 만 허용
-  const rand = Math.random().toString(36).slice(2, 10);
-  return `ORD-${Date.now()}-${rand}`;
-}
-
-function makeOrderName(lines) {
-  const first = lines[0].product.name;
-  const rest = lines.reduce((s, l) => s + l.qty, 0) - 1;
-  return rest > 0 ? `${first} 외 ${rest}건` : first;
 }
 
 async function initCheckout() {
@@ -81,9 +68,17 @@ async function initCheckout() {
     return;
   }
 
-  // ------ 결제위젯 초기화 (비회원 결제) ------
+  // ------ 결제위젯 초기화: 회원은 user id 기반 customerKey, 비회원은 ANONYMOUS (FR-3.3) ------
   const tossPayments = TossPayments(TOSS_CLIENT_KEY);
-  const widgets = tossPayments.widgets({ customerKey: TossPayments.ANONYMOUS });
+  const widgets = tossPayments.widgets({ customerKey: Auth.isMember ? Auth.user.id : TossPayments.ANONYMOUS });
+
+  // 회원이면 프로필 이름/연락처와 기본 배송지를 미리 채운다
+  if (Auth.isMember) prefillMember();
+  document.getElementById("same-as-orderer").addEventListener("change", (e) => {
+    if (!e.target.checked) return;
+    document.getElementById("s-name").value = document.getElementById("c-name").value;
+    document.getElementById("s-phone").value = document.getElementById("c-phone").value;
+  });
 
   // ------ 결제 금액 설정 (렌더링보다 먼저) ------
   const amount = { currency: "KRW", value: t.total };
@@ -107,23 +102,37 @@ async function initCheckout() {
     const name = document.getElementById("c-name").value.trim();
     const email = document.getElementById("c-email").value.trim();
     const phone = document.getElementById("c-phone").value.replace(/\D/g, "");
+    const shipping = {
+      recipient: document.getElementById("s-name").value.trim(),
+      phone: document.getElementById("s-phone").value.replace(/\D/g, ""),
+      zipcode: document.getElementById("s-zip").value.trim(),
+      address1: document.getElementById("s-addr1").value.trim(),
+      address2: document.getElementById("s-addr2").value.trim(),
+    };
 
     if (!name) return showHint("이름을 입력해 주세요.", "c-name");
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return showHint("올바른 이메일을 입력해 주세요.", "c-email");
     if (phone && !/^01\d{8,9}$/.test(phone)) return showHint("휴대폰 번호를 확인해 주세요.", "c-phone");
+    if (!shipping.recipient) return showHint("받는 분 이름을 입력해 주세요.", "s-name");
+    if (!/^01\d{8,9}$/.test(shipping.phone)) return showHint("받는 분 연락처를 확인해 주세요.", "s-phone");
+    if (!shipping.address1) return showHint("배송 주소를 입력해 주세요.", "s-addr1");
     hint.textContent = "";
 
-    const orderId = makeOrderId();
-    const orderName = makeOrderName(t.lines);
-
-    // 실서비스에서는 orderId, amount를 서버에 저장해 결제 승인 시 위변조를 검증해야 합니다.
-    // 퍼블리싱 단계이므로 sessionStorage에 보관하고 success 페이지에서 금액을 비교합니다.
-    try {
-      sessionStorage.setItem(
-        PENDING_KEY,
-        JSON.stringify({ orderId, orderName, amount: t.total, mode: isDirect ? "direct" : "cart", items, customerName: name })
-      );
-    } catch (e) {}
+    button.disabled = true;
+    // 금액은 서버(create-order)가 다시 계산하고 pending 주문을 만든다 (FR-6.2)
+    const res = await callFn("create-order", {
+      mode: isDirect ? "direct" : "cart",
+      items: isDirect ? items.map(({ id, size, qty }) => ({ id, size, qty })) : undefined,
+      orderer: { name, email, phone },
+      shipping,
+    });
+    if (!res.ok) {
+      button.disabled = false;
+      return showHint(res.error.message || "주문 생성 중 오류가 발생했습니다.", "payment-button");
+    }
+    const { orderId, orderName, amount: serverAmount } = res.data;
+    // 서버가 계산한 금액이 화면과 다르면 서버 금액으로 위젯을 갱신한다
+    if (serverAmount !== t.total) await widgets.setAmount({ currency: "KRW", value: serverAmount });
 
     const payload = {
       orderId,
@@ -140,6 +149,8 @@ async function initCheckout() {
     } catch (err) {
       // 사용자가 결제창을 닫은 경우 등
       hint.textContent = err.code === "USER_CANCEL" ? "결제를 취소했습니다." : err.message || "결제 요청 중 오류가 발생했습니다.";
+      button.disabled = false;
+      callFn("confirm-payment", { action: "fail", orderId, failCode: err.code, failMessage: err.message });
     }
   });
 
@@ -149,4 +160,25 @@ async function initCheckout() {
   }
 }
 
-document.addEventListener("DOMContentLoaded", initCheckout);
+async function prefillMember() {
+  const [{ data: profile }, { data: addr }] = await Promise.all([
+    sb.from("profiles").select("name, phone").maybeSingle(),
+    sb.from("addresses").select("*").eq("is_default", true).maybeSingle(),
+  ]);
+  const set = (id, v) => {
+    const el = document.getElementById(id);
+    if (el && v && !el.value) el.value = v;
+  };
+  set("c-name", profile?.name);
+  set("c-phone", profile?.phone);
+  set("c-email", Auth.user.email);
+  if (addr) {
+    set("s-name", addr.recipient);
+    set("s-phone", addr.phone);
+    set("s-zip", addr.zipcode);
+    set("s-addr1", addr.address1);
+    set("s-addr2", addr.address2);
+  }
+}
+
+appReady.then(initCheckout);

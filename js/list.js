@@ -3,6 +3,7 @@ const DIRECT_KEY = "sb_direct";
 
 const state = { sub: "전체", sort: "rank", keyword: "" };
 let modalState = null;
+let searchTimer;
 
 function initList() {
   const cat = document.body.dataset.page;
@@ -36,7 +37,8 @@ function initList() {
 
   document.getElementById("search-input")?.addEventListener("input", (e) => {
     state.keyword = e.target.value.trim().toLowerCase();
-    renderGrid();
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(renderGrid, 250);
   });
 
   document.getElementById("grid").addEventListener("click", (e) => {
@@ -59,33 +61,29 @@ function initList() {
   renderGrid();
 }
 
-function renderGrid() {
+let gridSeq = 0;
+
+async function renderGrid() {
   const cat = document.body.dataset.page;
-  const likes = readStore(LIKE_KEY, []);
 
   document.querySelectorAll(".chip").forEach((c) => c.classList.toggle("active", c.dataset.sub === state.sub));
   document.querySelectorAll("#sort button").forEach((b) => b.classList.toggle("active", b.dataset.sort === state.sort));
 
-  // 랭킹은 좋아요 수 기준
+  // 랭킹은 좋아요 수 기준 (카테고리 전체 순위)
   const ranked = PRODUCTS.filter((p) => p.cat === cat).sort((a, b) => b.likes - a.likes);
   const rankOf = Object.fromEntries(ranked.map((p, i) => [p.id, i + 1]));
 
-  let list = ranked.filter(
-    (p) =>
-      (state.sub === "전체" || p.sub === state.sub) &&
-      (!state.keyword || (p.brand + " " + p.name).toLowerCase().includes(state.keyword))
-  );
-
-  const sorters = {
-    rank: (a, b) => rankOf[a.id] - rankOf[b.id],
-    low: (a, b) => salePrice(a) - salePrice(b),
-    high: (a, b) => salePrice(b) - salePrice(a),
-    discount: (a, b) => b.discount - a.discount,
-    review: (a, b) => b.reviews - a.reviews,
-  };
-  list = list.slice().sort(sorters[state.sort]);
-
   const grid = document.getElementById("grid");
+  const seq = ++gridSeq;
+  let list;
+  try {
+    list = await queryProducts({ cat, sub: state.sub, keyword: state.keyword, sort: state.sort });
+  } catch (e) {
+    console.error(e);
+    if (seq === gridSeq) grid.innerHTML = `<div class="empty">상품을 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.</div>`;
+    return;
+  }
+  if (seq !== gridSeq) return; // 더 최신 요청이 있으면 버린다
   if (!list.length) {
     grid.innerHTML = `<div class="empty">조건에 맞는 상품이 없습니다.</div>`;
     return;
@@ -97,8 +95,8 @@ function renderGrid() {
       <article class="card" data-id="${p.id}" tabindex="0">
         <div class="thumb">
           ${productSvg(p)}
-          ${state.sort === "rank" ? `<span class="rank">${rankOf[p.id]}</span>` : ""}
-          <button type="button" class="like ${likes.includes(p.id) ? "on" : ""}" data-id="${p.id}" aria-label="좋아요">
+          ${state.sort === "rank" ? `<span class="rank">${rankOf[p.id] || ""}</span>` : ""}
+          <button type="button" class="like ${Likes.has(p.id) ? "on" : ""}" data-id="${p.id}" aria-label="좋아요">
             <svg viewBox="0 0 24 24"><path d="M12 20.5s-7.5-4.6-7.5-10.3A4.2 4.2 0 0 1 12 7.6a4.2 4.2 0 0 1 7.5 2.6c0 5.7-7.5 10.3-7.5 10.3z"/></svg>
           </button>
         </div>
@@ -127,12 +125,11 @@ function formatCount(n) {
   return n >= 10000 ? (n / 10000).toFixed(1).replace(/\.0$/, "") + "만" : n.toLocaleString("ko-KR");
 }
 
-function toggleLike(id, btn) {
-  const likes = readStore(LIKE_KEY, []);
-  const on = !likes.includes(id);
-  writeStore(LIKE_KEY, on ? [...likes, id] : likes.filter((x) => x !== id));
+async function toggleLike(id, btn) {
+  const before = Likes.has(id);
+  const on = await Likes.toggle(id);
   btn.classList.toggle("on", on);
-  toast(on ? "좋아요에 추가했습니다." : "좋아요를 취소했습니다.");
+  if (on !== before) toast(on ? "좋아요에 추가했습니다." : "좋아요를 취소했습니다.");
 }
 
 // ---------- 퀵뷰 모달 ----------
@@ -164,7 +161,12 @@ function openModal(id) {
       <div class="meta"><span><span class="star">★</span> ${p.rating}</span><span>후기 ${p.reviews.toLocaleString("ko-KR")}개</span><span>${p.free ? "무료배송" : "배송비 " + won(SHIPPING_FEE)}</span></div>
       <div>
         <div class="field-label">사이즈</div>
-        <div class="sizes">${p.sizes.map((s) => `<button type="button" class="size" data-size="${s}">${s}</button>`).join("")}</div>
+        <div class="sizes">${p.sizes
+          .map((s) => {
+            const out = (p.stock[s] ?? 0) <= 0;
+            return `<button type="button" class="size" data-size="${s}" ${out ? "disabled" : ""}>${s}${out ? " (품절)" : ""}</button>`;
+          })
+          .join("")}</div>
       </div>
       <div>
         <div class="field-label">수량</div>
@@ -194,9 +196,11 @@ function openModal(id) {
       document.getElementById("m-total").textContent = won(salePrice(p) * modalState.qty);
     })
   );
-  document.getElementById("m-cart").addEventListener("click", () => {
+  document.getElementById("m-cart").addEventListener("click", async () => {
     if (!requireSize()) return;
-    Cart.add(modalState.id, modalState.size, modalState.qty);
+    const before = Cart.count();
+    await Cart.add(modalState.id, modalState.size, modalState.qty);
+    if (Cart.count() === before) return; // 실패 시 Cart가 오류 토스트를 띄운다
     closeModal();
     toast("장바구니에 담았습니다.");
   });
@@ -223,4 +227,4 @@ function closeModal() {
   document.body.style.overflow = "";
 }
 
-document.addEventListener("DOMContentLoaded", initList);
+appReady.then(initList);

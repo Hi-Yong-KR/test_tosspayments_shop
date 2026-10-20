@@ -29,20 +29,20 @@
 
     <footer class="footer" id="footer"></footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.47.10/dist/umd/supabase.js"></script>
+    <script src="js/supabase.js"></script>
     <script src="js/products.js"></script>
     <script src="js/common.js"></script>
     <script>
-      document.addEventListener("DOMContentLoaded", () => {
+      appReady.then(async () => {
         const q = new URLSearchParams(location.search);
+        const orderId = q.get("orderId") || "";
         document.getElementById("f-message").textContent = q.get("message") || "결제 처리 중 문제가 발생했습니다.";
         document.getElementById("f-code").textContent = q.get("code") || "-";
-        document.getElementById("f-order").textContent = q.get("orderId") || "-";
+        document.getElementById("f-order").textContent = orderId || "-";
 
-        // 바로구매로 들어온 주문이면 다시 바로구매 주문서로
-        try {
-          const pending = JSON.parse(sessionStorage.getItem("sb_pending_order"));
-          if (pending && pending.mode === "direct") document.getElementById("f-retry").href = "checkout.html?mode=direct";
-        } catch (e) {}
+        // 실패 코드/메시지를 주문에 기록하고 상태를 failed 로 변경 (FR-6.6)
+        if (orderId) await callFn("confirm-payment", { action: "fail", orderId, failCode: q.get("code"), failMessage: q.get("message") });
       });
     </script>
   </body>

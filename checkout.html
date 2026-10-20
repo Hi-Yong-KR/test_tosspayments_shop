@@ -37,6 +37,23 @@
           </section>
 
           <section class="section">
+            <h3>배송지 정보</h3>
+            <label class="same-check"><input type="checkbox" id="same-as-orderer" /> 주문자 정보와 동일</label>
+            <div class="form-grid">
+              <label for="s-name">받는 분</label>
+              <input id="s-name" type="text" autocomplete="shipping name" placeholder="받는 분 이름" />
+              <label for="s-phone">연락처</label>
+              <input id="s-phone" type="tel" autocomplete="shipping tel" placeholder="숫자만 입력 (01012345678)" />
+              <label for="s-zip">우편번호</label>
+              <input id="s-zip" type="text" autocomplete="shipping postal-code" placeholder="우편번호" />
+              <label for="s-addr1">주소</label>
+              <input id="s-addr1" type="text" autocomplete="shipping address-line1" placeholder="기본 주소" />
+              <label for="s-addr2">상세 주소</label>
+              <input id="s-addr2" type="text" autocomplete="shipping address-line2" placeholder="상세 주소" />
+            </div>
+          </section>
+
+          <section class="section">
             <h3>결제 수단</h3>
             <!-- 결제 UI -->
             <div id="payment-method"></div>
@@ -51,6 +68,8 @@
 
     <footer class="footer" id="footer"></footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.47.10/dist/umd/supabase.js"></script>
+    <script src="js/supabase.js"></script>
     <script src="js/products.js"></script>
     <script src="js/common.js"></script>
     <script src="js/checkout.js"></script>

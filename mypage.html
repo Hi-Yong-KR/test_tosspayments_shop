@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>마이페이지 | STYLEBASE</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body data-page="mypage">
+    <header id="header"></header>
+
+    <main class="inner">
+      <section class="page-head">
+        <div class="breadcrumb">홈 &gt; 마이페이지</div>
+        <h1 class="page-title">마이페이지</h1>
+      </section>
+      <nav class="mp-tabs" id="mp-tabs">
+        <button type="button" data-tab="orders" class="active">주문 내역</button>
+        <button type="button" data-tab="likes">좋아요</button>
+        <button type="button" data-tab="addresses">배송지 관리</button>
+        <button type="button" data-tab="profile">내 정보</button>
+      </nav>
+      <section class="mp-panel" id="mp-panel"></section>
+    </main>
+
+    <footer class="footer" id="footer"></footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.47.10/dist/umd/supabase.js"></script>
+    <script src="js/supabase.js"></script>
+    <script src="js/products.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/mypage.js"></script>
+  </body>
+</html>

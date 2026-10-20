@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>로그인 | STYLEBASE</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body data-page="login">
+    <header id="header"></header>
+
+    <main class="inner">
+      <section class="auth-box">
+        <h1>로그인</h1>
+        <form class="auth-form" id="login-form">
+          <input name="email" type="email" autocomplete="email" placeholder="이메일" required />
+          <input name="password" type="password" autocomplete="current-password" placeholder="비밀번호" required />
+          <div class="hint" id="auth-hint"></div>
+          <button type="submit" class="btn btn-black">로그인</button>
+        </form>
+        <div class="auth-links">
+          <a href="signup.html" id="to-signup">회원가입</a>
+          <a href="order-lookup.html">비회원 주문조회</a>
+        </div>
+        <p class="auth-note">로그인하지 않아도 상품을 담고 결제할 수 있어요. 로그인하면 비회원으로 담아둔 장바구니와 주문이 내 계정으로 합쳐집니다.</p>
+      </section>
+    </main>
+
+    <footer class="footer" id="footer"></footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.47.10/dist/umd/supabase.js"></script>
+    <script src="js/supabase.js"></script>
+    <script src="js/products.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/auth.js"></script>
+  </body>
+</html>
