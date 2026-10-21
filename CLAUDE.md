@@ -58,6 +58,16 @@ npx -y http-server -p 5500 -c-1
 - 배포: GitHub Pages(main 루트) `https://hi-yong-kr.github.io/test_tosspayments_shop/`. Google Search Console에 URL 접두어 속성으로 등록되어 있고 sitemap을 제출했습니다. 루트의 `google7bcc345aca290489.html`은 소유권 확인 파일이므로 삭제하지 않습니다.
 - `seo:*` 마커 사이는 직접 수정하지 않습니다. FAQ 문구는 생성기의 `FAQ` 배열에서 고치며, 화면 FAQ와 FAQPage 마크업이 항상 같아야 합니다.
 
+### 홍보영상 (promo/)
+29.5초 1080p 홍보영상과 제작 도구입니다. 사이트 본체와 무관하며, 의존성은 `promo/package.json`(puppeteer-core, ffmpeg-static)에 따로 있고 시스템 Chrome(`C:/Program Files/Google/Chrome/Application/chrome.exe`, `CHROME`으로 변경 가능)을 씁니다.
+- `cd promo && npm i`: ffmpeg-static 설치 스크립트가 막히면 `npm install-scripts approve ffmpeg-static && npm rebuild ffmpeg-static`
+- `node capture.mjs`: 로컬 서버(5500)를 띄운 상태에서 실제 화면을 `assets/ui-*.png`로, 커서용 좌표를 `ui-layout.json`으로 저장합니다. UI·상품을 바꾸면 다시 실행합니다.
+- `node music.mjs`: 배경음을 `assets/music.wav`로 합성합니다. 이벤트 시각은 `promo.html`의 씬 시간표 `S`와 맞춰야 합니다.
+- `node render.mjs --thumbs [초...]`: 정지 화면 확인용 · `--fast`: 모션블러 없는 미리보기 · 인자 없이 실행: 최종 렌더(서브프레임 12장, 브라우저 3개 병렬, 약 10분, `SUB`/`WORKERS` 환경변수로 조절)
+- `promo.html?t=12`: 브라우저에서 특정 시점 확인 · 쿼리 없이 열면 음악과 함께 실시간 재생
+- 주의: 결제위젯 iframe은 `fullPage` 스크린샷에 빠지므로 뷰포트를 페이지 높이로 늘려 찍습니다. 주문서는 `networkidle0`에 도달하지 않으니 `load`로 기다립니다. 같은 브라우저의 백그라운드 탭은 렌더가 멈추므로 병렬 작업은 브라우저를 따로 띄웁니다.
+- `music.wav`, `products.js`, `thumbs/`는 생성물이라 커밋하지 않습니다. `main`에 push하면 `promo/`도 GitHub Pages에 함께 배포됩니다.
+
 ### 카테고리 페이지
 `tops.html`, `shoes.html`, `pants.html`은 `<title>`과 `data-page` 값, 그리고 생성된 `seo:*` 블록만 다른 동일한 마크업입니다. 하나를 수정하면 나머지 두 파일에도 똑같이 반영해야 합니다. 카테고리를 추가하려면 `categories` 테이블에 행을 추가하고, 같은 키 이름으로 HTML 파일을 만들고, `productSvg()`에 해당 카테고리의 그림을 추가합니다.
 
