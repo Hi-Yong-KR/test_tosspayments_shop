@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<title>STYLEBASE Promo</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1920px; height: 1080px; overflow: hidden; background: #000; }
+  body { font-family: "Pretendard", sans-serif; letter-spacing: -0.02em; color: #fff; }
+  #stage { position: relative; width: 1920px; height: 1080px; overflow: hidden; background: #000; }
+  .scene { position: absolute; inset: 0; display: none; overflow: hidden; }
+  .abs { position: absolute; will-change: transform, opacity; }
+  .center { left: 0; right: 0; text-align: center; }
+  .red { color: #ff0000; }
+  .blue { color: #0078ff; }
+
+  /* S1 */
+  #s1 { background: #000; }
+  #s1 .l { font-size: 92px; font-weight: 300; top: 0; }
+
+  /* S2 */
+  #s2 { background: #fff; color: #000; }
+  #s2 .w { font-size: 220px; font-weight: 900; letter-spacing: -0.06em; }
+
+  /* S3 */
+  #s3 { background: #f4f4f4; color: #000; }
+  #s3 .bg-word { font-size: 520px; font-weight: 900; letter-spacing: -0.06em; color: transparent;
+    -webkit-text-stroke: 3px rgba(0,0,0,.12); top: 210px; white-space: nowrap; }
+  #s3 .prod { left: 660px; top: 90px; width: 600px; height: 720px; }
+  #s3 .prod img { width: 100%; height: 100%; }
+  #s3 .meta { left: 120px; bottom: 110px; }
+  #s3 .brand { font-size: 34px; font-weight: 800; }
+  #s3 .name { font-size: 30px; font-weight: 400; color: #555; margin-top: 6px; }
+  #s3 .price { font-size: 64px; font-weight: 800; margin-top: 14px; }
+  #s3 .count { right: 120px; bottom: 120px; font-size: 30px; font-weight: 700; color: #888; text-align: right; }
+  #s3 .flash { inset: 0; background: #fff; }
+
+  /* S4 */
+  #s4 { background: #fff; color: #000; }
+  #s4 .grid { left: 50%; top: 50%; display: grid; grid-template-columns: repeat(9, 170px); gap: 14px; }
+  #s4 .grid img { width: 170px; height: 204px; display: block; border-radius: 4px; }
+  #s4 .cap { left: 0; right: 0; top: 50%; text-align: center; }
+  #s4 .cap .big { font-size: 170px; font-weight: 900; letter-spacing: -0.05em; line-height: 1; }
+  #s4 .cap .sm { font-size: 44px; font-weight: 600; margin-top: 18px; }
+  #s4 .veil { inset: 0; background: rgba(255,255,255,.82); }
+
+  /* S5 */
+  #s5 { background: #0b0b0b; }
+  #s5 .copy { left: 130px; top: 330px; }
+  #s5 .copy .t { font-size: 96px; font-weight: 800; line-height: 1.12; letter-spacing: -0.04em; }
+  #s5 .copy .s { font-size: 32px; color: #9a9a9a; margin-top: 28px; line-height: 1.5; }
+  #s5 .browser { left: 860px; top: 120px; width: 1180px; height: 840px; border-radius: 18px; overflow: hidden;
+    background: #fff; box-shadow: 0 60px 120px rgba(0,0,0,.6); transform-origin: 0 50%; }
+  #s5 .bar { height: 46px; background: #1c1c1c; display: flex; align-items: center; gap: 10px; padding: 0 18px; }
+  #s5 .bar i { width: 13px; height: 13px; border-radius: 50%; background: #444; display: block; }
+  #s5 .bar .url { margin-left: 18px; height: 28px; flex: 0 0 520px; border-radius: 14px; background: #2b2b2b; color: #888;
+    font-size: 15px; line-height: 28px; padding: 0 16px; }
+  #s5 .view { position: absolute; top: 46px; left: 0; right: 0; bottom: 0; overflow: hidden; }
+  #s5 .view img { width: 1180px; display: block; }
+
+  /* S6 */
+  #s6 { background: #fff; color: #000; }
+  #s6 .word { left: 0; right: 0; top: 330px; text-align: center; font-size: 230px; font-weight: 900; letter-spacing: -0.06em; line-height: 1; }
+  #s6 .steps { left: 360px; right: 360px; top: 740px; display: flex; justify-content: space-between; }
+  #s6 .step { font-size: 30px; font-weight: 700; color: #c4c4c4; width: 240px; text-align: center; }
+  #s6 .step.on { color: #000; }
+  #s6 .track { left: 480px; right: 480px; top: 710px; height: 6px; background: #eee; border-radius: 3px; }
+  #s6 .fill { left: 480px; top: 710px; height: 6px; background: #0078ff; border-radius: 3px; }
+  #s6 .check { left: 50%; top: 250px; width: 160px; height: 160px; margin-left: -80px; border-radius: 50%; background: #0078ff; }
+  #s6 .check svg { width: 160px; height: 160px; }
+
+  /* S7 */
+  #s7 .panel { inset: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+  #s7 .panel .k { font-size: 40px; font-weight: 600; opacity: .55; margin-bottom: 26px; }
+  #s7 .panel .h { font-size: 150px; font-weight: 900; letter-spacing: -0.05em; line-height: 1.05; text-align: center; }
+  #s7 .p1 { background: #000; color: #fff; }
+  #s7 .p2 { background: #fff; color: #000; }
+  #s7 .p3 { background: #0078ff; color: #fff; }
+
+  /* S8 */
+  #s8 { background: #000; }
+  #s8 .logo { left: 0; right: 0; top: 400px; text-align: center; font-size: 210px; font-weight: 900; letter-spacing: -0.04em; line-height: 1; }
+  #s8 .logo span { display: inline-block; }
+  #s8 .tag { left: 0; right: 0; top: 660px; text-align: center; font-size: 52px; font-weight: 300; }
+  #s8 .url { left: 0; right: 0; top: 900px; text-align: center; font-size: 26px; color: #777; letter-spacing: 0.02em; }
+  #s8 .line { left: 50%; top: 630px; height: 2px; background: #fff; }
+
+  #fade { position: absolute; inset: 0; background: #000; pointer-events: none; }
+  #grain { position: absolute; inset: 0; pointer-events: none; opacity: .05; mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/></filter><rect width='200' height='200' filter='url(%23n)'/></svg>"); }
+</style>
+</head>
+<body>
+<div id="stage">
+
+  <section class="scene" id="s1">
+    <div class="abs center l" id="s1a" style="top:400px">옷을 고르는 시간은</div>
+    <div class="abs center l" id="s1b" style="top:530px; font-weight:800">길어도 좋습니다.</div>
+  </section>
+
+  <section class="scene" id="s2">
+    <div class="abs w" id="s2a" style="left:260px; top:250px">결제는</div>
+    <div class="abs w" id="s2b" style="left:260px; top:500px">짧을수록<span class="red">.</span></div>
+  </section>
+
+  <section class="scene" id="s3">
+    <div class="abs bg-word center" id="s3bg">TOPS</div>
+    <div class="abs prod" id="s3prod"><img id="s3img" alt="" /></div>
+    <div class="abs meta" id="s3meta">
+      <div class="brand" id="s3brand"></div>
+      <div class="name" id="s3name"></div>
+      <div class="price"><span class="red" id="s3rate"></span> <span id="s3price"></span></div>
+    </div>
+    <div class="abs count" id="s3count"></div>
+    <div class="abs flash" id="s3flash"></div>
+  </section>
+
+  <section class="scene" id="s4">
+    <div class="abs grid" id="s4grid"></div>
+    <div class="abs veil" id="s4veil"></div>
+    <div class="abs cap" id="s4cap">
+      <div class="big">27개의 기본</div>
+      <div class="sm">상의 · 신발 · 바지 &nbsp;|&nbsp; 최대 <span class="red">45%</span> 할인</div>
+    </div>
+  </section>
+
+  <section class="scene" id="s5">
+    <div class="abs copy" id="s5copy">
+      <div class="t">고르는 건<br />천천히.</div>
+      <div class="s">랭킹순 · 할인율순 · 가격순<br />세부 카테고리와 검색까지.</div>
+    </div>
+    <div class="abs browser" id="s5browser">
+      <div class="bar"><i></i><i></i><i></i><div class="url">hi-yong-kr.github.io/test_tosspayments_shop</div></div>
+      <div class="view"><img id="s5img" src="assets/site-tops.png" alt="" /></div>
+    </div>
+  </section>
+
+  <section class="scene" id="s6">
+    <div class="abs check" id="s6check">
+      <svg viewBox="0 0 160 160"><path id="s6path" d="M48 82 L71 105 L114 58" fill="none" stroke="#fff" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="110" /></svg>
+    </div>
+    <div class="abs word" id="s6word"></div>
+    <div class="abs track"></div>
+    <div class="abs fill" id="s6fill"></div>
+    <div class="abs steps">
+      <div class="step" id="st0">장바구니</div>
+      <div class="step" id="st1">주문서</div>
+      <div class="step" id="st2">토스페이먼츠</div>
+      <div class="step" id="st3">결제 완료</div>
+    </div>
+  </section>
+
+  <section class="scene" id="s7">
+    <div class="abs panel p1" id="s7p1"><div class="k">비회원 결제 · 주문조회</div><div class="h">회원가입,<br />안 해도 됩니다.</div></div>
+    <div class="abs panel p2" id="s7p2"><div class="k">50,000원 이상</div><div class="h">무료배송.</div></div>
+    <div class="abs panel p3" id="s7p3"><div class="k">로그인하면</div><div class="h">담아둔 그대로.</div></div>
+  </section>
+
+  <section class="scene" id="s8">
+    <div class="abs logo" id="s8logo"></div>
+    <div class="abs line" id="s8line"></div>
+    <div class="abs tag" id="s8tag">기본을, 가장 빠르게.</div>
+    <div class="abs url" id="s8url">STYLEBASE · 상의 · 신발 · 바지</div>
+  </section>
+
+  <div id="grain"></div>
+  <div id="fade"></div>
+</div>
+
+<script>
+const IMG = "../img/products/";
+const CUTS = [
+  { id: "T002", cat: "TOPS",  brand: "COVERMOOD",   name: "에센셜 기모 스웻 후드 집업",   rate: "45%", price: "43,500원" },
+  { id: "T001", cat: "TOPS",  brand: "OVERLAP",     name: "오버핏 헤비코튼 로고 반팔",    rate: "30%", price: "27,300원" },
+  { id: "T007", cat: "TOPS",  brand: "SAINT ROW",   name: "빈티지 워싱 그래픽 후드티",    rate: "40%", price: "53,400원" },
+  { id: "S001", cat: "SHOES", brand: "SOLEMATE",    name: "클래식 로우 레더 스니커즈",    rate: "30%", price: "69,300원" },
+  { id: "S004", cat: "SHOES", brand: "NORDIC FIELD",name: "스웨이드 첼시 부츠",           rate: "40%", price: "101,400원" },
+  { id: "S002", cat: "SHOES", brand: "TRACK CLUB",  name: "에어 쿠션 데일리 러닝화",      rate: "25%", price: "104,300원" },
+  { id: "P001", cat: "PANTS", brand: "COVERMOOD",   name: "와이드 스트레이트 데님 팬츠",  rate: "30%", price: "41,300원" },
+  { id: "P005", cat: "PANTS", brand: "SAINT ROW",   name: "빈티지 워싱 루즈핏 데님",      rate: "40%", price: "47,400원" },
+  { id: "P006", cat: "PANTS", brand: "ARCHIVE LAB", name: "투턱 울 블렌드 와이드 슬랙스", rate: "20%", price: "71,200원" },
+  { id: "P008", cat: "PANTS", brand: "HIGHLINE",    name: "카고 나일론 쇼츠",             rate: "30%", price: "34,300원" },
+];
+const ALL = [
+  "T001","T002","T003","T004","T005","T006","T007","T008","T009",
+  "S001","S002","S003","S004","S005","S006","S007","S008","T010",
+  "P001","P002","P003","P004","P005","P006","P007","P008","P009",
+];
+const STEPS = ["담고", "주문하고", "토스로 결제", "끝."];
+const BEAT = 0.4; // 150 BPM
+const DURATION = 29;
+
+// 씬 시간표(초)
+const S = {
+  s1: [0, 3.2], s2: [3.2, 5.6], s3: [5.6, 9.6], s4: [9.6, 12.0],
+  s5: [12.0, 16.4], s6: [16.4, 21.2], s7: [21.2, 25.2], s8: [25.2, 29.0],
+};
+
+const $ = (id) => document.getElementById(id);
+const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+const lerp = (a, b, p) => a + (b - a) * p;
+const outExpo = (p) => (p >= 1 ? 1 : 1 - Math.pow(2, -10 * p));
+const outCubic = (p) => 1 - Math.pow(1 - p, 3);
+const inOutCubic = (p) => (p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2);
+const inCubic = (p) => p * p * p;
+// t0~t1 구간 진행률(0~1)
+const k = (t, t0, t1, ease = (x) => x) => ease(clamp((t - t0) / (t1 - t0)));
+const set = (el, o) => { for (const key in o) el.style[key] = o[key]; };
+
+// 정적 요소 생성
+const grid = $("s4grid");
+ALL.forEach((id) => { const im = new Image(); im.src = IMG + id + ".svg"; grid.appendChild(im); });
+$("s8logo").innerHTML = "STYLEBASE".split("").map((c) => `<span>${c}</span>`).join("");
+const imgCache = CUTS.map((c) => { const im = new Image(); im.src = IMG + c.id + ".svg"; return im; });
+
+function revealUp(el, t, t0, dur = 0.7, dist = 60) {
+  const p = k(t, t0, t0 + dur, outExpo);
+  set(el, { opacity: p, transform: `translateY(${(1 - p) * dist}px)`, filter: `blur(${(1 - p) * 10}px)` });
+}
+
+const scenes = {
+  s1(t) {
+    revealUp($("s1a"), t, 0.3, 1.2, 40);
+    revealUp($("s1b"), t, 1.3, 1.2, 40);
+    const out = k(t, 2.6, 3.2, inCubic);
+    $("s1").style.opacity = 1 - out;
+    const zoom = lerp(1, 1.06, k(t, 0, 3.2));
+    $("s1a").style.transform += ` scale(${zoom})`;
+    $("s1b").style.transform += ` scale(${zoom})`;
+  },
+  s2(t) {
+    const l = t - S.s2[0];
+    const a = k(l, 0, 0.45, outExpo), b = k(l, 0.8, 1.25, outExpo);
+    set($("s2a"), { opacity: a, transform: `translateX(${(1 - a) * -200}px)` });
+    set($("s2b"), { opacity: b, transform: `translateX(${(1 - b) * 200}px)` });
+    // 빠르게 잘려 나가는 느낌으로 마지막에 왼쪽으로 슬라이드
+    const out = k(l, 2.1, 2.4, inCubic);
+    $("s2").style.transform = `translateX(${-out * 1920}px)`;
+  },
+  s3(t) {
+    const l = t - S.s3[0];
+    const i = Math.min(CUTS.length - 1, Math.floor(l / BEAT));
+    const c = CUTS[i], cl = l - i * BEAT;
+    if ($("s3img").getAttribute("src") !== imgCache[i].src) $("s3img").src = imgCache[i].src;
+    $("s3bg").textContent = c.cat;
+    $("s3brand").textContent = c.brand;
+    $("s3name").textContent = c.name;
+    $("s3rate").textContent = c.rate;
+    $("s3price").textContent = c.price;
+    $("s3count").textContent = String(i + 1).padStart(2, "0") + " / 27";
+    const pop = k(cl, 0, 0.25, outExpo);
+    set($("s3prod"), { transform: `scale(${lerp(1.18, 1, pop)}) rotate(${(i % 2 ? 1 : -1) * (1 - pop) * 4}deg)` });
+    set($("s3meta"), { opacity: pop, transform: `translateY(${(1 - pop) * 30}px)` });
+    $("s3bg").style.transform = `translateX(${(i % 2 ? -1 : 1) * cl * 160}px)`;
+    $("s3flash").style.opacity = 1 - k(cl, 0, 0.08);
+  },
+  s4(t) {
+    const l = t - S.s4[0];
+    const z = lerp(1.35, 1.0, k(l, 0, 2.4, outCubic));
+    set(grid, { transform: `translate(-50%,-50%) scale(${z})` });
+    [...grid.children].forEach((im, n) => {
+      const d = ((n % 9) + Math.floor(n / 9)) * 0.045;
+      const p = k(l, d, d + 0.35, outExpo);
+      set(im, { opacity: p, transform: `translateY(${(1 - p) * 40}px)` });
+    });
+    const v = k(l, 0.9, 1.3, outCubic);
+    $("s4veil").style.opacity = v;
+    const c = k(l, 1.0, 1.5, outExpo);
+    set($("s4cap"), { opacity: c, transform: `translateY(-50%) scale(${lerp(1.15, 1, c)})` });
+    const out = k(l, 2.1, 2.4, inCubic);
+    $("s4").style.clipPath = `inset(0 0 ${out * 100}% 0)`;
+  },
+  s5(t) {
+    const l = t - S.s5[0];
+    const b = k(l, 0, 0.9, outExpo);
+    set($("s5browser"), {
+      opacity: b,
+      transform: `translateX(${(1 - b) * 400}px) perspective(2000px) rotateY(${lerp(-24, -12, b)}deg)`,
+    });
+    // 스크롤: 상품 그리드 → FAQ
+    const sc = k(l, 0.8, 4.0, inOutCubic);
+    $("s5img").style.transform = `translateY(${-sc * 760}px)`;
+    revealUp($("s5copy").children[0], t, S.s5[0] + 0.3, 0.8);
+    revealUp($("s5copy").children[1], t, S.s5[0] + 0.7, 0.8);
+    $("s5").style.opacity = 1 - k(l, 4.1, 4.4);
+  },
+  s6(t) {
+    const l = t - S.s6[0];
+    const per = 1.2; // 3박자씩
+    const i = Math.min(3, Math.floor(l / per));
+    const sl = l - i * per;
+    const w = $("s6word");
+    w.textContent = STEPS[i];
+    w.className = "abs word" + (i === 2 ? " blue" : "");
+    const p = k(sl, 0, 0.3, outExpo);
+    set(w, { opacity: p, transform: `translateY(${(1 - p) * 80 + (i === 3 ? 90 : 0)}px) scale(${lerp(0.9, 1, p)})` });
+    for (let n = 0; n < 4; n++) $("st" + n).classList.toggle("on", n <= i);
+    const prog = clamp((i + k(sl, 0, 0.4, outCubic)) / 3);
+    $("s6fill").style.width = prog * 960 + "px";
+    // 마지막 단계에 체크 표시
+    const cp = k(l, 3 * per + 0.1, 3 * per + 0.5, outExpo);
+    set($("s6check"), { opacity: cp, transform: `scale(${lerp(0.4, 1, cp)})` });
+    $("s6path").style.strokeDashoffset = 110 * (1 - k(l, 3 * per + 0.3, 3 * per + 0.8, outCubic));
+    $("s6").style.transform = `scale(${lerp(1, 1.04, k(l, 0, 4.8))})`;
+  },
+  s7(t) {
+    const l = t - S.s7[0];
+    const wipe = (el, t0) => {
+      const p = k(l, t0, t0 + 0.35, outExpo);
+      el.style.clipPath = `inset(0 0 0 ${(1 - p) * 100}%)`;
+      el.style.display = l >= t0 ? "flex" : "none";
+      const h = el.querySelector(".h");
+      h.style.transform = `translateX(${(1 - k(l, t0, t0 + 0.6, outExpo)) * 120}px)`;
+    };
+    wipe($("s7p1"), 0);
+    wipe($("s7p2"), 1.2);
+    wipe($("s7p3"), 2.4);
+  },
+  s8(t) {
+    const l = t - S.s8[0];
+    [...$("s8logo").children].forEach((sp, n) => {
+      const p = k(l, 0.1 + n * 0.05, 0.6 + n * 0.05, outExpo);
+      set(sp, { opacity: p, transform: `translateY(${(1 - p) * 120}px)`, filter: `blur(${(1 - p) * 14}px)` });
+    });
+    const ln = k(l, 0.8, 1.6, outExpo);
+    set($("s8line"), { width: ln * 700 + "px", marginLeft: -ln * 350 + "px", opacity: 1 - k(l, 1.6, 2.2) * 0.7 });
+    revealUp($("s8tag"), t, S.s8[0] + 1.1, 1.0, 30);
+    revealUp($("s8url"), t, S.s8[0] + 1.6, 1.0, 20);
+    $("s8logo").style.letterSpacing = lerp(-0.04, 0.01, k(l, 0, 3.8, outCubic)) + "em";
+  },
+};
+
+function render(t) {
+  for (const id in S) {
+    const [a, b] = S[id];
+    const el = $(id);
+    const on = t >= a && t < b;
+    el.style.display = on ? "block" : "none";
+    if (on) scenes[id](t);
+  }
+  // 시작 페이드인, 끝 페이드아웃
+  $("fade").style.opacity = Math.max(1 - k(t, 0, 0.4), k(t, 28.3, 29.0));
+}
+window.render = render;
+window.DURATION = DURATION;
+window.ready = Promise.all([
+  document.fonts.ready,
+  ...[...document.images].map((im) => im.decode().catch(() => {})),
+  ...imgCache.map((im) => im.decode().catch(() => {})),
+]);
+
+// 브라우저에서 직접 열면 실시간 재생 (?t=12 로 특정 시점 확인)
+const q = new URLSearchParams(location.search);
+if (q.has("t")) window.ready.then(() => render(parseFloat(q.get("t"))));
+else if (!q.has("render")) {
+  window.ready.then(() => {
+    const start = performance.now();
+    const loop = () => { render(((performance.now() - start) / 1000) % DURATION); requestAnimationFrame(loop); };
+    loop();
+  });
+}
+</script>
+</body>
+</html>
