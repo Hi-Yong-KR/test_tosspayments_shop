@@ -55,6 +55,7 @@ npx -y http-server -p 5500 -c-1
 - 모든 HTML의 `<!-- seo:head -->` 블록: title, description, robots(주문서·마이페이지 등은 `noindex`), canonical, OG/Twitter, JSON-LD
 - 카테고리 페이지의 `seo:page-head`, `seo:grid`, `seo:faq` 블록: JS 없이도 읽히는 정적 상품 목록과 FAQ. `#page-head`와 `#grid`는 `list.js`가 같은 마크업으로 다시 그리므로 카드 마크업을 바꾸면 `list.js`와 생성기를 함께 고칩니다.
 - `img/products/*.svg`, `sitemap.xml`, `robots.txt`(AI 크롤러 포함), `llms.txt`
+- 배포: GitHub Pages(main 루트) `https://hi-yong-kr.github.io/test_tosspayments_shop/`. Google Search Console에 URL 접두어 속성으로 등록되어 있고 sitemap을 제출했습니다. 루트의 `google7bcc345aca290489.html`은 소유권 확인 파일이므로 삭제하지 않습니다.
 - `seo:*` 마커 사이는 직접 수정하지 않습니다. FAQ 문구는 생성기의 `FAQ` 배열에서 고치며, 화면 FAQ와 FAQPage 마크업이 항상 같아야 합니다.
 
 ### 카테고리 페이지
