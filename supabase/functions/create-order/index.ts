@@ -47,6 +47,8 @@ Deno.serve(async (req) => {
 
   if (!ordererName) return json({ code: "INVALID_ORDERER", message: "주문자 이름을 입력해 주세요." }, 400);
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(ordererEmail)) return json({ code: "INVALID_EMAIL", message: "올바른 이메일을 입력해 주세요." }, 400);
+  // 비회원은 주문번호 + 휴대폰으로만 주문을 조회하므로 휴대폰이 필수
+  if (!ordererPhone && user.is_anonymous) return json({ code: "INVALID_PHONE", message: "비회원 주문은 휴대폰 번호를 입력해 주세요." }, 400);
   if (ordererPhone && !/^01\d{8,9}$/.test(ordererPhone)) return json({ code: "INVALID_PHONE", message: "휴대폰 번호를 확인해 주세요." }, 400);
   if (!shipRecipient || !/^01\d{8,9}$/.test(shipPhone) || !shipAddress1) {
     return json({ code: "INVALID_SHIPPING", message: "배송지 정보(받는 분, 연락처, 주소)를 입력해 주세요." }, 400);
@@ -72,13 +74,14 @@ Deno.serve(async (req) => {
 
   const { data: products, error: pErr } = await admin
     .from("products")
-    .select("id, name, brand, sale_price, sizes, is_active, product_stock(size, stock)")
+    .select("id, name, brand, sale_price, sizes, is_active, free_shipping, product_stock(size, stock)")
     .in("id", [...new Set(lines.map((l) => l.id))]);
   if (pErr) return json({ code: "SERVER_ERROR", message: "상품 정보를 불러오지 못했습니다." }, 500);
   const byId = new Map((products ?? []).map((p) => [p.id, p]));
 
   const items = [];
   let subtotal = 0;
+  let freeItem = false;
   for (const l of lines) {
     const p = byId.get(l.id);
     if (!p || !p.is_active || !p.sizes.includes(l.size) || !Number.isInteger(l.qty) || l.qty < 1 || l.qty > 99) {
@@ -87,10 +90,12 @@ Deno.serve(async (req) => {
     const stock = p.product_stock.find((s: any) => s.size === l.size)?.stock ?? 0;
     if (stock < l.qty) return json({ code: "OUT_OF_STOCK", message: `${p.name} (${l.size}) 상품의 재고가 부족합니다.` }, 409);
     subtotal += p.sale_price * l.qty;
+    if (p.free_shipping) freeItem = true;
     items.push({ product_id: p.id, name: p.name, brand: p.brand, size: l.size, price: p.sale_price, qty: l.qty });
   }
 
-  const shippingFee = subtotal >= FREE_SHIPPING_MIN ? 0 : SHIPPING_FEE;
+  // 무료배송 상품이 하나라도 있으면 묶음배송으로 배송비 무료 (calcTotals와 같은 규칙)
+  const shippingFee = freeItem || subtotal >= FREE_SHIPPING_MIN ? 0 : SHIPPING_FEE;
   const totalQty = items.reduce((s, i) => s + i.qty, 0);
   const orderName = totalQty > 1 ? `${items[0].name} 외 ${totalQty - 1}건` : items[0].name;
   const orderId = `ORD-${Date.now()}-${crypto.randomUUID().slice(0, 8)}`;

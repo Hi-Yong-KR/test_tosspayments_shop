@@ -114,7 +114,9 @@ function calcTotals(items) {
   });
   const subtotal = lines.reduce((s, l) => s + l.total, 0);
   const origin = lines.reduce((s, l) => s + l.origin, 0);
-  const shipping = subtotal === 0 || subtotal >= FREE_SHIPPING_MIN ? 0 : SHIPPING_FEE;
+  // 무료배송 상품이 하나라도 있으면 묶음배송으로 배송비 무료 (create-order와 같은 규칙)
+  const freeItem = lines.some((l) => l.product.free);
+  const shipping = subtotal === 0 || freeItem || subtotal >= FREE_SHIPPING_MIN ? 0 : SHIPPING_FEE;
   return { lines, origin, discount: origin - subtotal, subtotal, shipping, total: subtotal + shipping };
 }
 
@@ -160,7 +162,7 @@ function renderLayout() {
       <div class="inner">
         <strong>STYLEBASE</strong>
         <p>퍼블리싱 데모 페이지입니다. 상품 정보와 이미지는 모두 예시이며, 결제는 토스페이먼츠 테스트 환경에서 진행됩니다.</p>
-        <p style="margin-top:6px">${won(FREE_SHIPPING_MIN)} 이상 구매 시 무료배송 · 기본 배송비 ${won(SHIPPING_FEE)}</p>
+        <p style="margin-top:6px">${won(FREE_SHIPPING_MIN)} 이상 또는 무료배송 상품 포함 시 무료배송 · 기본 배송비 ${won(SHIPPING_FEE)}</p>
       </div>`;
   }
 

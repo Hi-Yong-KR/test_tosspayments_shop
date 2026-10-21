@@ -74,6 +74,7 @@ async function initCheckout() {
 
   // 회원이면 프로필 이름/연락처와 기본 배송지를 미리 채운다
   if (Auth.isMember) prefillMember();
+  else document.querySelector('label[for="c-phone"]').textContent = "휴대폰 번호 (비회원 주문조회용)";
   document.getElementById("same-as-orderer").addEventListener("change", (e) => {
     if (!e.target.checked) return;
     document.getElementById("s-name").value = document.getElementById("c-name").value;
@@ -112,6 +113,8 @@ async function initCheckout() {
 
     if (!name) return showHint("이름을 입력해 주세요.", "c-name");
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return showHint("올바른 이메일을 입력해 주세요.", "c-email");
+    // 비회원은 주문번호 + 휴대폰으로 주문을 조회하므로 필수
+    if (!phone && !Auth.isMember) return showHint("비회원 주문은 휴대폰 번호를 입력해 주세요.", "c-phone");
     if (phone && !/^01\d{8,9}$/.test(phone)) return showHint("휴대폰 번호를 확인해 주세요.", "c-phone");
     if (!shipping.recipient) return showHint("받는 분 이름을 입력해 주세요.", "s-name");
     if (!/^01\d{8,9}$/.test(shipping.phone)) return showHint("받는 분 연락처를 확인해 주세요.", "s-phone");

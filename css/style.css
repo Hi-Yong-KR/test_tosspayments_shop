@@ -7,9 +7,9 @@
   --gray-100: #f1f1f1;
   --gray-200: #e5e5e5;
   --gray-400: #b3b3b3;
-  --gray-500: #888;
+  --gray-500: #707070;
   --gray-700: #555;
-  --red: #ff0000;
+  --red: #e00000;
   --blue: #0078ff;
   --max: 1280px;
 }
@@ -28,6 +28,7 @@ a { color: inherit; text-decoration: none; }
 button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
 input, select { font: inherit; }
 ul { list-style: none; }
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
 .inner { max-width: var(--max); margin: 0 auto; padding: 0 20px; }
 
 /* ---------- Header ---------- */
@@ -39,6 +40,7 @@ ul { list-style: none; }
   background: #1f1f1f; border-radius: 4px; padding: 0 12px; height: 38px;
 }
 .search input { flex: 1; background: none; border: 0; outline: 0; color: var(--white); }
+.search:focus-within { outline: 2px solid var(--blue); outline-offset: 2px; }
 .search input::placeholder { color: #8a8a8a; }
 .search svg { width: 18px; height: 18px; fill: none; stroke: #8a8a8a; stroke-width: 2; }
 .top-actions { margin-left: auto; display: flex; gap: 18px; align-items: center; font-size: 13px; }
@@ -100,7 +102,7 @@ ul { list-style: none; }
   position: absolute; right: 8px; bottom: 8px; width: 26px; height: 26px;
   display: flex; align-items: center; justify-content: center;
 }
-.like svg { width: 22px; height: 22px; fill: rgba(0,0,0,.15); stroke: var(--white); stroke-width: 1.5; }
+.like svg { width: 22px; height: 22px; fill: rgba(255,255,255,.6); stroke: var(--gray-700); stroke-width: 1.5; }
 .like.on svg { fill: var(--red); stroke: var(--red); }
 .info { padding-top: 10px; }
 .brand { font-size: 12px; font-weight: 700; }
@@ -148,8 +150,10 @@ ul { list-style: none; }
 .total-line { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--gray-200); padding-top: 14px; }
 .total-line strong { font-size: 20px; font-weight: 800; }
 .btn-row { display: flex; gap: 8px; margin-top: auto; }
+/* flex: 1은 가로 줄에서만 준다. 세로 flex 부모(.summary, .auth-form 등)에서는 height를 덮어써 버튼이 줄어든다 */
+.btn-row .btn, .mp-actions .btn { flex: 1; }
 .btn {
-  flex: 1; height: 52px; font-size: 15px; font-weight: 700; border: 1px solid var(--black);
+  height: 52px; flex-shrink: 0; font-size: 15px; font-weight: 700; border: 1px solid var(--black);
   display: inline-flex; align-items: center; justify-content: center;
 }
 .btn-black { background: var(--black); color: var(--white); }
@@ -201,7 +205,7 @@ ul { list-style: none; }
 .section h3 { font-size: 17px; font-weight: 800; margin-bottom: 12px; }
 .form-grid { display: grid; grid-template-columns: 120px 1fr; gap: 10px 12px; align-items: center; }
 .form-grid label { font-size: 13px; color: var(--gray-700); }
-.form-grid input { height: 42px; border: 1px solid var(--gray-200); padding: 0 12px; outline: 0; width: 100%; }
+.form-grid input { height: 42px; border: 1px solid var(--gray-200); padding: 0 12px; width: 100%; }
 .form-grid input:focus { border-color: var(--black); }
 .summary { position: sticky; top: 72px; border: 1px solid var(--black); padding: 20px; display: flex; flex-direction: column; gap: 10px; }
 .summary h3 { font-size: 17px; font-weight: 800; margin-bottom: 4px; }
@@ -255,7 +259,7 @@ ul { list-style: none; }
 .auth-box h1 { font-size: 26px; font-weight: 800; margin-bottom: 20px; }
 .auth-form { display: flex; flex-direction: column; gap: 10px; }
 .auth-form input, .mp-form input, .lookup-form input {
-  height: 44px; border: 1px solid var(--gray-200); padding: 0 12px; outline: 0; width: 100%;
+  height: 44px; border: 1px solid var(--gray-200); padding: 0 12px; width: 100%;
 }
 .auth-form input:focus, .mp-form input:focus, .lookup-form input:focus { border-color: var(--black); }
 .auth-form .btn { margin-top: 6px; }
